@@ -73,7 +73,7 @@ func (e *Event) DecodeArgs(log *types.Log, args ...any) error {
 // DecodeYourArgs decodes the topics and data of the given log to the given args.
 //
 // DecodeYourArgs is insensitiv to indexed fields.
-func (e *Event) DecodeYourArgs(log *types.Log, yargs _abi.Arguments, args ...any) error {
+func (e *Event) DecodeYourArgs(log *types.Log, yargs abi.Arguments, args ...any) error {
 	if len(log.Topics) <= 0 || e.Topic0 != log.Topics[0] {
 		return fmt.Errorf("w3: topic0 mismatch")
 	}
@@ -90,5 +90,5 @@ func (e *Event) DecodeYourArgs(log *types.Log, yargs _abi.Arguments, args ...any
 	}
 	copy(data[i*32:], log.Data)
 
-	return yargs.Decode(data, args...)
+	return _abi.Arguments(yargs).Decode(data, args...)
 }
